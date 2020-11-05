@@ -50,9 +50,8 @@ class CompanyLDAP(osv.osv):
         :param dict conf: LDAP configuration
         :return: an LDAP object
         """
-
-        uri = 'ldap://%s:%d' % (conf['ldap_server'],
-                                conf['ldap_server_port'])
+        prefix = "" if conf['ldap_server'].startswith('ldap://') or conf['ldap_server'].startswith('ldaps://') else "ldap://"
+        uri = '%s%s:%d' % (prefix, conf['ldap_server'], conf['ldap_server_port'])
 
         connection = ldap.initialize(uri)
         if conf['ldap_tls']:
